@@ -99,7 +99,7 @@ Header(
   newVar("attractor_number").global(), //Header(newVar("FillerType").global());
   newVar("itemnum").global(), 
 )
-  .log("PROLIFIC_ID", GetURLParameter("id"))
+  .log("SONA_ID", GetURLParameter("id"))
   .log("head_number", getVar("head_number"))
   .log("verb_number", getVar("verb_number"))
   .log("attractor_number", getVar("attractor_number"))
@@ -172,13 +172,6 @@ newTrial(
   newText(".   ") // Adding space for formatting
     .print()
     .color("white"),
-  newText(
-    "Note: The experiment introduction will involve audio, " +
-      "so please leave your computer audio on during the experiment " +
-      "(listening through headphones is okay)."
-  )
-    .italic()
-    .print(),
   newText(".   ") // Adding space for formatting
     .print()
     .color("white"),
@@ -205,7 +198,7 @@ newTrial(
     "<center><b>Instructions</b></center>" +
       "<p>Please read these instruction sections carefully! " +
       "If you fail to understand the task, your data will NOT be usable." +
-      "<p>In this experiment, you will read some sentences by pressing 'space' and later recall them." +
+      "<p>In this experiment, you will read some sentences word-by-word by pressing 'space' and later recall them." +
       "Your voice will be recorded while you recall these sentences." +
       "<p>This experiment requires your FULL ATTENTION. " +
       "The experiment is reasonably brief. Most people find that the study takes around XXXX minutes. " + //!!! TODO
@@ -214,7 +207,6 @@ newTrial(
       "<li>You are using your <b>computer</b>, and not your phone or tablet,</li>" +
       "<li>You are using <b>Google Chrome</b>, and not Safari or Firefox,</li>" +
       "<li>You have a <b>working mouse/trackpad and keyboard</b>,</li>" +
-      "<li>You are a native speaker of <b>American English</b>,</li>" +
       "<li>You are <b>between the ages of 18 - 30 </b>,</li>" +
       "<li>This is your <b>first time doing this experiment</b>,</li>" +
       "<li>You were able to record yourself and listen to your recording.</li></ol>"
@@ -256,7 +248,7 @@ newTrial(
   newText(
     "Intro1" + "-body",
     "In this experiment, you will see sentences presented word-by-word " +
-      "and will read the sentences as you see each word." +
+      "and you will read the sentences as you see each word. Please do this in your head, not aloud" +
       "For each sentence, you will need to press the 'SPACE' bar to view the sentence one word at a time. " + 
       "<p>Let's practice some examples together." +
       "<p>Proceed by pressing any key on your keyboard"
@@ -446,68 +438,8 @@ Template("prac-2", (row) =>
       .wait(), // Asterisk Timer
     getText("prac-2" + "-ast-postRSVP").remove(), // Remove Asterisk
 
-    newText("prac-2" + "-trigger-first", row.trigger)
-      .css({ "font-size": "100" })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "-trig-first", interveningWTime)
-      .start()
-      .wait(),
-    getText("prac-2" + "-trigger-first").remove(),
+    // !!! TODO
 
-    newText("prac-2" + "w1", row.w1) // first word presentation
-      .css({ "font-size": wFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "w1-time", interveningWTime)
-      .start()
-      .wait(), // wait for 1500 miliseconds
-    getText("prac-2" + "w1").remove(),
-    newTimer("prac-2" + "whitescreen-w1", 100)
-      .start()
-      .wait(),
-    newText("prac-2" + "w2", row.w2) // second word presentation (at least 2 words will be presented)
-      .css({ "font-size": wFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "w2-time", interveningWTime)
-      .start()
-      .wait(),
-    getText("prac-2" + "w2").remove(),
-    newTimer("prac-2" + "whitescreen-w2", 100)
-      .start()
-      .wait(),
-    newVar("prac-2" + "longerthan2", row.nw > 2) // if rand is greater than 2, present the third word
-      .test.is(true)
-      .success(
-        newText("prac-2" + "w3", row.w3)
-          .css({ "font-size": wFontSize })
-          .print("center at 50vw", "middle at 50vh"),
-        newTimer("prac-2" + "w3-time", interveningWTime)
-          .start()
-          .wait(),
-        getText("prac-2" + "w3").remove(),
-        newTimer("whitescreen-w3", 100).start().wait()
-      ),
-    newVar("prac-2" + "longerthan3", row.nw > 3) // if rand is greater than 3, present the fourth word
-      .test.is(true)
-      .success(
-        newText("prac-2" + "w4", row.w4)
-          .css({ "font-size": wFontSize })
-          .print("center at 50vw", "middle at 50vh"),
-        newTimer("prac-2" + "w4-time", interveningWTime)
-          .start()
-          .wait(),
-        getText("prac-2" + "w4").remove(),
-        newTimer("prac-2" + "whitescreen-w4", 100)
-          .start()
-          .wait()
-      ),
-    // MAIN DISTRACTOR // maybe find better words for this
-    newText("prac-2" + "-trigger", row.trigger)
-      .css({ "font-size": "100" })
-      .color("red")
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "-trig-red", redTrigTime)
-      .start()
-      .wait(),
     getVoiceRecorder(
       row.id + "_" + "prac-2" + "_" + subject_id,
       "audio"
@@ -651,7 +583,8 @@ Template(GetTable(fname).filter("head", /snail/), trial("trial_snail"));
 newTrial(
   "break",
   newText(
-    "Let's take a short break! Press any key to continue when you are ready."
+    "Let's take a short break! Please keep this to only a moment, to ensure that you finish in proper time. " +
+      "Press any key to continue when you are ready."
   )
     .css({ "font-size": headerFontSize })
     .print("center at 50vw", "middle at 50vh"),

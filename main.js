@@ -257,7 +257,7 @@ newTrial(
     "Intro1" + "-body",
     "In this experiment, you will see sentences presented word-by-word " +
       "and will read the sentences as you see each word." +
-      "To see the next word, you need to press 'SPACE' button on your keyboard. " + 
+      "For each sentence, you will need to press the 'SPACE' bar to view the sentence one word at a time. " + 
       "<p>Let's practice some examples together." +
       "<p>Proceed by pressing any key on your keyboard"
   )
@@ -277,7 +277,7 @@ newTrial(
     .start()
     .wait(), // Asterisk Timer
   getText("Intro2a" + "ast-preRSVP").remove(), // Remove Asterisk
-  newController("DashedSentence", {s: "The dancer below the computer is running."})
+  newController("DashedSentence", {s: "The marker on the desk is yellowish green."})
     .log()
     .css({ "font-size": "100" })
     .print("center at 50vw", "middle at 50vh")
@@ -316,7 +316,7 @@ newTrial(
     .wait()
     .remove(),
   newTimer(1000).start().wait(),
-  newText("math", "1+3").center().print(),
+  newText("math", "1 + 3?").center().print(),
   newScale("grade", "1", "2", "3", "4", "5", "6", "7", "8", "9")
     .labelsPosition("bottom")
     .css("margin", "10pt")
@@ -358,7 +358,7 @@ newTrial(
     .wait()
     .remove(),
   newTimer(1000).start().wait(),
-  newText("math", "1+3").center().print(),
+  newText("math", "2 + 5?").center().print(),
   newScale("grade", "1", "2", "3", "4", "5", "6", "7", "8", "9")
     .labelsPosition("bottom")
     .css("margin", "10pt")
@@ -367,10 +367,10 @@ newTrial(
     .print()
     .callback(getTimer("hurry").stop()) // !!! TODO: there should be some timer 
     .log(),
+  getText("math").remove(),
+  getScale("grade").remove(), // remove previous elements
 
-    delete the text and the scale 
-
-    add a recording
+  // !!! TODO: add recording here
 ).setOption("hideProgressBar", true);
 
 
@@ -380,7 +380,7 @@ newTrial(
   "Intro3",
   newText(
     "Intro3" + "-body",
-    "Now you are ready for the experiment, first we will do some practices"
+    "Now you are ready for the experiment, first we will do some practice"
   )
     .css({ "font-size": bodyFontSize }) // audio1
     .center()
@@ -425,13 +425,7 @@ Template("prac-2", (row) =>
       .wait(), // 100 ms white screen
 
     // RSVP TARGET
-    newController("DashedSentence", {
-      s: row.target,
-      mode: "speeded acceptability",
-      display: "in place",
-      wordTime: RSVPTime,
-      wordPauseTime: 100,
-    })
+    newController("DashedSentence", {s: row.target})
       .log()
       .css({ "font-size": "100" })
       .print("center at 50vw", "middle at 50vh")
@@ -439,9 +433,9 @@ Template("prac-2", (row) =>
       .remove(),
     ////
 
-    newTimer("prac-2" + "-whitescreen-postRSVP", 100)
+    newTimer("prac-2" + "-whitescreen-postRSVP", 1000)
       .start()
-      .wait(), // 100 ms white screen
+      .wait(), // 1000 ms white screen
 
     // Asterisk
     newText("prac-2" + "-ast-postRSVP", "****") // Present Asterisk
@@ -543,23 +537,19 @@ newTrial(
     .css({ "font-size": bodyFontSize, "text-align": "center" })
     .center()
     .print(),
-  newTimer(300).start().wait(),
-  newAudio("Transition6Audio", "Transition6.mp3").play(),
-  newTimer(1000).start().wait(),
   newKey("prac-transition6-pass", "").wait(),
-  getAudio("Transition6Audio").wait("first")
 );
 
 newTrial(
   "prac-transition7",
   newText(
     "prac-transition7-body",
-    "<p>Remember, you'll read each word of the sentence aloud " +
-      "and memorize the sentence. " +
-      "Try to picture the scene described in the sentence. " +
-      "Then, you'll see some random words and read them aloud. " +
-      "The number of these words will vary from trial to trial. " +
-      "When one of the random words turns red, say the sentence that you memorized." +
+    "<p>Remember, you'll read a sentence word by word " +
+      "while memorizing it word for word, as best as you can. " +
+      "Then, you'll need to use your keyboard to respond to a small addition problem. " +
+      "After a short blank screen, you'll see a recording prompt. " +
+      "At this point, recall the sentence as accurately as you can out loud. It's ok to be imperfect! " +
+      "Try to avoid saying things unrelated to the sentence, like 'um' or 'I forget'. " +
       "There will be a brief pause between trials. " +
       "<p>Before continuing, please double-check " +
       "that you are in a quiet environment with minimal or no background noise." +
@@ -568,11 +558,7 @@ newTrial(
     .css({ "font-size": bodyFontSize, "text-align": "center" })
     .center()
     .print(),
-  newTimer(300).start().wait(),
-  newAudio("Transition7Audio", "Intro9.mp3").play(),
-  newTimer(1000).start().wait(),
   newKey("prac-transition7-pass", "").wait(),
-  getAudio("Transition7Audio").wait("first")
 );
 
 // ! EXPERIMENT =============================================================================================
@@ -604,13 +590,7 @@ var trial = (label) => (row) => {
     newTimer("whitescreen-preRSVP", 100).start().wait(), // 100 ms white screen
 
     // RSVP TARGET
-    newController("DashedSentence", {
-      s: row.target,
-      mode: "speeded acceptability",
-      display: "in place",
-      wordTime: RSVPTime,
-      wordPauseTime: 100,
-    })
+    newController("DashedSentence", {s: row.target})
       .log()
       .css({ "font-size": "100" })
       .print("center at 50vw", "middle at 50vh")
@@ -618,7 +598,7 @@ var trial = (label) => (row) => {
       .remove(),
     ////
 
-    newTimer("whitescreen-postRSVP", 100).start().wait(), // 100 ms white screen
+    newTimer("whitescreen-postRSVP", 1000).start().wait(), // 1000 ms white screen
 
     // Asterisk
     newText("ast-postRSVP", "****") // Present Asterisk
@@ -628,62 +608,8 @@ var trial = (label) => (row) => {
     getText("ast-postRSVP").remove(), // Remove Asterisk
     ////
 
-    // RANDOM WORD PRESENTATION
-    (numbers = [2, 3, 4]), // possible number of words in beetween
-    (rand = numbers[(Math.random() * numbers.length) | 0]), // choose one of them
-    newText("trigger-black-first", row.trigger)
-      .css({ "font-size": wFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("triger-black-first", interveningWTime).start().wait(),
-    getText("trigger-black-first").remove(),
-
-    newText("w1", row.w1) // first word presentation
-      .css({ "font-size": wFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("w1-time", interveningWTime).start().wait(), // wait for 1500 miliseconds
-    getText("w1").remove(),
-    newTimer("whitescreen-w1", 100).start().wait(),
-    newText("w2", row.w2) // second word presentation (at least 2 words will be presented)
-      .css({ "font-size": wFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("w2-time", interveningWTime).start().wait(),
-    getText("w2").remove(),
-    newTimer("whitescreen-w2", 100).start().wait(),
-    newVar("longerthan2", rand > 2) // if rand is greater than 2, present the third word
-      .test.is(true)
-      .success(
-        newText("w3", row.w3)
-          .css({ "font-size": wFontSize })
-          .print("center at 50vw", "middle at 50vh"),
-        newTimer("w3-time", interveningWTime).start().wait(),
-        getText("w3").remove(),
-        newTimer("whitescreen-w3", 100).start().wait()
-      ),
-    newVar("longerthan3", rand > 3) // if rand is greater than 3, present the fourth word
-      .test.is(true)
-      .success(
-        newText("w4", row.w4)
-          .css({ "font-size": wFontSize })
-          .print("center at 50vw", "middle at 50vh"),
-        newTimer("w4-time", interveningWTime).start().wait(),
-        getText("w4").remove(),
-        newTimer("whitescreen-w4", 100).start().wait()
-      ),
-    ////
-    // TIMER
-    // MAIN DISTRACTOR // maybe find better words for this
-    newText("trigger-black", row.trigger)
-      .css({ "font-size": "100" })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("triger-black", blackTrigTime).start().wait(),
-    getText("trigger-black").remove(),
-    newText("trigger-red", row.trigger)
-      .css({ "font-size": "100" })
-      .color("red")
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("trigger-red", redTrigTime).start().wait(),
-    getText("trigger-red").remove(),
-    getVoiceRecorder(
+    newText("trialMath"), //!!! TODO
+    getVoiceRecorder( //!!! TODO change wav name
       row.head +
         "_" +
         row.verb_type +
@@ -706,11 +632,6 @@ var trial = (label) => (row) => {
     getVar("trigger").set(row.trigger),
     getVar("trigger_type").set(row.trigger_type),
     getVar("itemnum").set(row.item),
-    getVar("nw").set(rand),
-    getVar("w1").set(row.w1),
-    getVar("w2").set(row.w2),
-    getVar("w3").set(row.w3),
-    getVar("w4").set(row.w4)
   ).setOption("hideProgressBar", true);
 };
 
@@ -745,8 +666,7 @@ newTrial(
       newText(
         "confirmation",
         "This is the end of the experiment. Thank you for participating!" +
-          "<p> The recordings were sent to the server. Click the Download Recordings button below if you want to have a copy of your recordings." +
-          "<p> Click Next to receive a PROLIFIC code."
+          "<p> The recordings were sent to the server. Click the Download Recordings button below if you want to have a copy of your recordings."
       ).print(),
   newText("download", DownloadRecordingButton("Download recordings")).print(),
   newButton("Next").center().settings.css("margin", "40px").print().wait()
@@ -760,11 +680,11 @@ newTrial(
   newText(".   ") // Adding space for formatting
     .print()
     .color("white"),
+  newHtml("debrief", "debrief.html"),
   newText(
-    "The experiment code is C12GDTTH  " +
-      "Please paste this value into Prolific." +
-      "<p>You can also confirm your participation on Prolific by clicking the link below: " +
-      "<a href='https://app.prolific.com/submissions/complete?cc=C12GDTTH'>Confirm your participation.</a>" +
+    "<p><a href='https://umlinguistics.sona-systems.com/......."+GetURLParameter("id")+"' target='_blank'>"+
+      "Click here to confirm your participation on SONA!</a></p> <p>This is a necessary step in order for you to receive participation credit!</p>" +
+      "If you have any problems with this step, please email utkuturk@umd.edu" +
       "<p>When you are finished, you may close this tab."
   )
     .center()

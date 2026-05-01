@@ -3,6 +3,7 @@
 - aws link: done.
 - get timed exp time to put up
 - check the stims.
+- sepwithN is not working.
 
 **Note the change in blank screen timings, i think it's better to keep these short**: done
 - trial should be like:

@@ -82,11 +82,10 @@ Sequence(
   "consent",
   "initiate_recorder",
   "recording_test",
-  "preloadTrial",
   startsWith("inst-"),
   startsWith("Intro"),
   startsWith("prac-"),
-  sepWithN("break", rshuffle("filler", "experimental"), 24),
+  rshuffle("filler", "experimental"),
   "upload",
   "send_results",
   "bye1",
@@ -116,24 +115,13 @@ Header(
 // CONSENT
 newTrial(
   "consent",
-  defaultText.css(text_css),
   newText(
-    "consent-body",
     "<center><b>Consent Form</b></center>" +
-      "<p>Please click <a target='_blank' rel='noopener noreferrer' href='https://utkuturk.com/files/web_consent.pdf'> here</a> to download the consent form for this study. If you read it and agree to participate in this study, click 'I Agree' below. If you do not agree to participate in this study, you can leave this study by closing the tab. You can leave the experiment at any time by closing the tab during the experiment. If you leave the experiment before completion of both parts, you will not be compensated for your time. If you encounter any problems, do not hesitate to reach us either via " +
-      "email. " +
-      "<br><br><b> Researchers:</b> <br>Sebastián Mancha, PhD Student <i> (smancha@umd.edu)</i>,<br>Utku Turk, PhD Student <i> (utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics",
-  ),
-  newCanvas("consent-page", 1500, 500)
-    .add(100, 20, newImage("umd_ling.png").size("60%", "auto"))
-    .add(0, 120, getText("consent-body"))
-    .cssContainer(page_css)
-    .print(),
-  newText("<p>").print(),
-  newButton("agree", "I AGREE").bold().css(button_css).print().wait(),
+      "<p>Please click <a target='_blank' rel='noopener noreferrer' href='https://utkuturk.com/files/web_consent.pdf'>here</a> to download the consent form for this study. If you read it and agree to participate, click 'I AGREE' below. If you do not agree, you may close this tab. You can leave the experiment at any time by closing the tab. If you leave before completion, you will not be compensated. If you encounter any problems, please contact us by email." +
+      "<br><br><b>Researchers:</b><br>Sebastián Mancha, PhD Student <i>(smancha@umd.edu)</i><br>Utku Turk, PhD Student <i>(utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics"
+  ).css(text_css).print(),
+  newButton("agree", "I AGREE").bold().css(button_css).center().print().wait()
 ).setOption("hideProgressBar", true);
-
-CheckPreloaded().label("preloadTrial");
 
 // RECORDING SETUP
 InitiateRecorder(
@@ -488,7 +476,7 @@ newTrial(
 UploadRecordings("upload");
 
 // FILLERS
-Template(GetTable("fillers.csv").separator(";"), (row) => {
+Template("fillers.csv", (row) => {
   var mathQ = randomMath();
   var recFile = subject_id + "_fill_" + row.FillerNo;
   return newTrial(
@@ -653,5 +641,5 @@ newTrial(
     .center()
     .bold()
     .print(),
-  newTimer("infinite", 99999999).start().wait(),
+  newButton().wait(),
 );

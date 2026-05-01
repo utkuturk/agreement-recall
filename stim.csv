@@ -1,0 +1,193 @@
+item,condition,head_number,attractor_number,grammaticality,sentence
+1,a,singular,singular,grammatical,The slogan on the poster unsurprisingly was designed to get attention.
+1,b,singular,plural,grammatical,The slogan on the posters unsurprisingly was designed to get attention.
+1,c,singular,singular,ungrammatical,The slogan on the poster unsurprisingly were designed to get attention.
+1,d,singular,plural,ungrammatical,The slogan on the posters unsurprisingly were designed to get attention.
+1,e,plural,singular,grammatical,The slogans on the poster unsurprisingly were designed to get attention.
+1,f,plural,plural,grammatical,The slogans on the posters unsurprisingly were designed to get attention.
+1,g,plural,singular,ungrammatical,The slogans on the poster unsurprisingly was designed to get attention.
+1,h,plural,plural,ungrammatical,The slogans on the posters unsurprisingly was designed to get attention.
+2,a,singular,singular,grammatical,The picture on the flier definitely was of a village church in the south of France.
+2,b,singular,plural,grammatical,The picture on the fliers definitely was of a village church in the south of France.
+2,c,singular,singular,ungrammatical,The picture on the flier definitely were of a village church in the south of France.
+2,d,singular,plural,ungrammatical,The picture on the fliers definitely were of a village church in the south of France.
+2,e,plural,singular,grammatical,The pictures on the flier definitely were of a village church in the south of France.
+2,f,plural,plural,grammatical,The pictures on the fliers definitely were of a village church in the south of France.
+2,g,plural,singular,ungrammatical,The pictures on the flier definitely was of a village church in the south of France.
+2,h,plural,plural,ungrammatical,The pictures on the fliers definitely was of a village church in the south of France.
+3,a,singular,singular,grammatical,The mistake in the program certainly was disastrous for the small software company.
+3,b,singular,plural,grammatical,The mistake in the programs certainly was disastrous for the small software company.
+3,c,singular,singular,ungrammatical,The mistake in the program certainly were disastrous for the small software company.
+3,d,singular,plural,ungrammatical,The mistake in the programs certainly were disastrous for the small software company.
+3,e,plural,singular,grammatical,The mistakes in the program certainly were disastrous for the small software company.
+3,f,plural,plural,grammatical,The mistakes in the programs certainly were disastrous for the small software company.
+3,g,plural,singular,ungrammatical,The mistakes in the program certainly was disastrous for the small software company.
+3,h,plural,plural,ungrammatical,The mistakes in the programs certainly was disastrous for the small software company.
+4,a,singular,singular,grammatical,The label on the container probably was a warning about the hazardous chemicals inside.
+4,b,singular,plural,grammatical,The label on the containers probably was a warning about the hazardous chemicals inside.
+4,c,singular,singular,ungrammatical,The label on the container probably were a warning about the hazardous chemicals inside.
+4,d,singular,plural,ungrammatical,The label on the containers probably were a warning about the hazardous chemicals inside.
+4,e,plural,singular,grammatical,The labels on the container probably were a warning about the hazardous chemicals inside.
+4,f,plural,plural,grammatical,The labels on the containers probably were a warning about the hazardous chemicals inside.
+4,g,plural,singular,ungrammatical,The labels on the container probably was a warning about the hazardous chemicals inside.
+4,h,plural,plural,ungrammatical,The labels on the containers probably was a warning about the hazardous chemicals inside.
+5,a,singular,singular,grammatical,The problem in the store ultimately was solved by firing the custodian.
+5,b,singular,plural,grammatical,The problem in the stores ultimately was solved by firing the custodian.
+5,c,singular,singular,ungrammatical,The problem in the store ultimately were solved by firing the custodian.
+5,d,singular,plural,ungrammatical,The problem in the stores ultimately were solved by firing the custodian.
+5,e,plural,singular,grammatical,The problems in the store ultimately were solved by firing the custodian.
+5,f,plural,plural,grammatical,The problems in the stores ultimately were solved by firing the custodian.
+5,g,plural,singular,ungrammatical,The problems in the store ultimately was solved by firing the custodian.
+5,h,plural,plural,ungrammatical,The problems in the stores ultimately was solved by firing the custodian.
+6,a,singular,singular,grammatical,The name on the billboard probably was of a prominent local businessman.
+6,b,singular,plural,grammatical,The name on the billboards probably was of a prominent local businessman.
+6,c,singular,singular,ungrammatical,The name on the billboard probably were of a prominent local businessman.
+6,d,singular,plural,ungrammatical,The name on the billboards probably were of a prominent local businessman.
+6,e,plural,singular,grammatical,The names on the billboard probably were of a prominent local businessman.
+6,f,plural,plural,grammatical,The names on the billboards probably were of a prominent local businessman.
+6,g,plural,singular,ungrammatical,The names on the billboard probably was of a prominent local businessman.
+6,h,plural,plural,ungrammatical,The names on the billboards probably was of a prominent local businessman.
+7,a,singular,singular,grammatical,The crime in the suburb doubtlessly was a reflection of the violence in today's society.
+7,b,singular,plural,grammatical,The crime in the suburbs doubtlessly was a reflection of the violence in today's society.
+7,c,singular,singular,ungrammatical,The crime in the suburb doubtlessly were a reflection of the violence in today's society.
+7,d,singular,plural,ungrammatical,The crime in the suburbs doubtlessly were a reflection of the violence in today's society.
+7,e,plural,singular,grammatical,The crimes in the suburb doubtlessly were a reflection of the violence in today's society.
+7,f,plural,plural,grammatical,The crimes in the suburbs doubtlessly were a reflection of the violence in today's society.
+7,g,plural,singular,ungrammatical,The crimes in the suburb doubtlessly was a reflection of the violence in today's society.
+7,h,plural,plural,ungrammatical,The crimes in the suburbs doubtlessly was a reflection of the violence in today's society.
+8,a,singular,singular,grammatical,The defect in the appliance likely was unknown to consumers and government regulators.
+8,b,singular,plural,grammatical,The defect in the appliances likely was unknown to consumers and government regulators.
+8,c,singular,singular,ungrammatical,The defect in the appliance likely were unknown to consumers and government regulators.
+8,d,singular,plural,ungrammatical,The defect in the appliances likely were unknown to consumers and government regulators.
+8,e,plural,singular,grammatical,The defects in the appliance likely were unknown to consumers and government regulators.
+8,f,plural,plural,grammatical,The defects in the appliances likely were unknown to consumers and government regulators.
+8,g,plural,singular,ungrammatical,The defects in the appliance likely was unknown to consumers and government regulators.
+8,h,plural,plural,ungrammatical,The defects in the appliances likely was unknown to consumers and government regulators.
+9,a,singular,singular,grammatical,The citation on the notecard unfortunately was quite difficult to track down using the library's limited resources.
+9,b,singular,plural,grammatical,The citation on the notecards unfortunately was quite difficult to track down using the library's limited resources.
+9,c,singular,singular,ungrammatical,The citation on the notecard unfortunately were quite difficult to track down using the library's limited resources.
+9,d,singular,plural,ungrammatical,The citation on the notecards unfortunately were quite difficult to track down using the library's limited resources.
+9,e,plural,singular,grammatical,The citations on the notecard unfortunately were quite difficult to track down using the library's limited resources.
+9,f,plural,plural,grammatical,The citations on the notecards unfortunately were quite difficult to track down using the library's limited resources.
+9,g,plural,singular,ungrammatical,The citations on the notecard unfortunately was quite difficult to track down using the library's limited resources.
+9,h,plural,plural,ungrammatical,The citations on the notecards unfortunately was quite difficult to track down using the library's limited resources.
+10,a,singular,singular,grammatical,The advertisement on the skyscraper typically was hard to read except from a long distance away.
+10,b,singular,plural,grammatical,The advertisement on the skyscrapers typically was hard to read except from a long distance away.
+10,c,singular,singular,ungrammatical,The advertisement on the skyscraper typically were hard to read except from a long distance away.
+10,d,singular,plural,ungrammatical,The advertisement on the skyscrapers typically were hard to read except from a long distance away.
+10,e,plural,singular,grammatical,The advertisements on the skyscraper typically were hard to read except from a long distance away.
+10,f,plural,plural,grammatical,The advertisements on the skyscrapers typically were hard to read except from a long distance away.
+10,g,plural,singular,ungrammatical,The advertisements on the skyscraper typically was hard to read except from a long distance away.
+10,h,plural,plural,ungrammatical,The advertisements on the skyscrapers typically was hard to read except from a long distance away.
+11,a,singular,singular,grammatical,The traitor in the camp regrettably was passing information to the enemy through various secret methods.
+11,b,singular,plural,grammatical,The traitor in the camps regrettably was passing information to the enemy through various secret methods.
+11,c,singular,singular,ungrammatical,The traitor in the camp regrettably were passing information to the enemy through various secret methods.
+11,d,singular,plural,ungrammatical,The traitor in the camps regrettably were passing information to the enemy through various secret methods.
+11,e,plural,singular,grammatical,The traitors in the camp regrettably were passing information to the enemy through various secret methods.
+11,f,plural,plural,grammatical,The traitors in the camps regrettably were passing information to the enemy through various secret methods.
+11,g,plural,singular,ungrammatical,The traitors in the camp regrettably was passing information to the enemy through various secret methods.
+11,h,plural,plural,ungrammatical,The traitors in the camps regrettably was passing information to the enemy through various secret methods.
+12,a,singular,singular,grammatical,The flaw in the argument usually was clear to everyone in the lecture hall after just five minutes.
+12,b,singular,plural,grammatical,The flaw in the arguments usually was clear to everyone in the lecture hall after just five minutes.
+12,c,singular,singular,ungrammatical,The flaw in the argument usually were clear to everyone in the lecture hall after just five minutes.
+12,d,singular,plural,ungrammatical,The flaw in the arguments usually were clear to everyone in the lecture hall after just five minutes.
+12,e,plural,singular,grammatical,The flaws in the argument usually were clear to everyone in the lecture hall after just five minutes.
+12,f,plural,plural,grammatical,The flaws in the arguments usually were clear to everyone in the lecture hall after just five minutes.
+12,g,plural,singular,ungrammatical,The flaws in the argument usually was clear to everyone in the lecture hall after just five minutes.
+12,h,plural,plural,ungrammatical,The flaws in the arguments usually was clear to everyone in the lecture hall after just five minutes.
+13,a,singular,singular,grammatical,The door to the laboratory accidentally was left unlocked by the cleaning service.
+13,b,singular,plural,grammatical,The door to the laboratories accidentally was left unlocked by the cleaning service.
+13,c,singular,singular,ungrammatical,The door to the laboratory accidentally were left unlocked by the cleaning service.
+13,d,singular,plural,ungrammatical,The door to the laboratories accidentally were left unlocked by the cleaning service.
+13,e,plural,singular,grammatical,The doors to the laboratory accidentally were left unlocked by the cleaning service.
+13,f,plural,plural,grammatical,The doors to the laboratories accidentally were left unlocked by the cleaning service.
+13,g,plural,singular,ungrammatical,The doors to the laboratory accidentally was left unlocked by the cleaning service.
+13,h,plural,plural,ungrammatical,The doors to the laboratories accidentally was left unlocked by the cleaning service.
+14,a,singular,singular,grammatical,The memo from the supervisor unfortunately was about the delinquent tax return.
+14,b,singular,plural,grammatical,The memo from the supervisors unfortunately was about the delinquent tax return.
+14,c,singular,singular,ungrammatical,The memo from the supervisor unfortunately were about the delinquent tax return.
+14,d,singular,plural,ungrammatical,The memo from the supervisors unfortunately were about the delinquent tax return.
+14,e,plural,singular,grammatical,The memos from the supervisor unfortunately were about the delinquent tax return.
+14,f,plural,plural,grammatical,The memos from the supervisors unfortunately were about the delinquent tax return.
+14,g,plural,singular,ungrammatical,The memos from the supervisor unfortunately was about the delinquent tax return.
+14,h,plural,plural,ungrammatical,The memos from the supervisors unfortunately was about the delinquent tax return.
+15,a,singular,singular,grammatical,The check from the stockbroker happily was a dividend on a long-term bond.
+15,b,singular,plural,grammatical,The check from the stockbrokers happily was a dividend on a long-term bond.
+15,c,singular,singular,ungrammatical,The check from the stockbroker happily were a dividend on a long-term bond.
+15,d,singular,plural,ungrammatical,The check from the stockbrokers happily were a dividend on a long-term bond.
+15,e,plural,singular,grammatical,The checks from the stockbroker happily were a dividend on a long-term bond.
+15,f,plural,plural,grammatical,The checks from the stockbrokers happily were a dividend on a long-term bond.
+15,g,plural,singular,ungrammatical,The checks from the stockbroker happily was a dividend on a long-term bond.
+15,h,plural,plural,ungrammatical,The checks from the stockbrokers happily was a dividend on a long-term bond.
+16,a,singular,singular,grammatical,The key to the cell unsurprisingly was rusty from many years of disuse.
+16,b,singular,plural,grammatical,The key to the cells unsurprisingly was rusty from many years of disuse.
+16,c,singular,singular,ungrammatical,The key to the cell unsurprisingly were rusty from many years of disuse.
+16,d,singular,plural,ungrammatical,The key to the cells unsurprisingly were rusty from many years of disuse.
+16,e,plural,singular,grammatical,The keys to the cell unsurprisingly were rusty from many years of disuse.
+16,f,plural,plural,grammatical,The keys to the cells unsurprisingly were rusty from many years of disuse.
+16,g,plural,singular,ungrammatical,The keys to the cell unsurprisingly was rusty from many years of disuse.
+16,h,plural,plural,ungrammatical,The keys to the cells unsurprisingly was rusty from many years of disuse.
+17,a,singular,singular,grammatical,The letter from the investigator allegedly was received in San Francisco in late March.
+17,b,singular,plural,grammatical,The letter from the investigators allegedly was received in San Francisco in late March.
+17,c,singular,singular,ungrammatical,The letter from the investigator allegedly were received in San Francisco in late March.
+17,d,singular,plural,ungrammatical,The letter from the investigators allegedly were received in San Francisco in late March.
+17,e,plural,singular,grammatical,The letters from the investigator allegedly were received in San Francisco in late March.
+17,f,plural,plural,grammatical,The letters from the investigators allegedly were received in San Francisco in late March.
+17,g,plural,singular,ungrammatical,The letters from the investigator allegedly was received in San Francisco in late March.
+17,h,plural,plural,ungrammatical,The letters from the investigators allegedly was received in San Francisco in late March.
+18,a,singular,singular,grammatical,The entrance to the exhibit evidently was hard to locate on the diagram.
+18,b,singular,plural,grammatical,The entrance to the exhibits evidently was hard to locate on the diagram.
+18,c,singular,singular,ungrammatical,The entrance to the exhibit evidently were hard to locate on the diagram.
+18,d,singular,plural,ungrammatical,The entrance to the exhibits evidently were hard to locate on the diagram.
+18,e,plural,singular,grammatical,The entrances to the exhibit evidently were hard to locate on the diagram.
+18,f,plural,plural,grammatical,The entrances to the exhibits evidently were hard to locate on the diagram.
+18,g,plural,singular,ungrammatical,The entrances to the exhibit evidently was hard to locate on the diagram.
+18,h,plural,plural,ungrammatical,The entrances to the exhibits evidently was hard to locate on the diagram.
+19,a,singular,singular,grammatical,The warning from the expert unsurprisingly was a shock to the residents of the city.
+19,b,singular,plural,grammatical,The warning from the experts unsurprisingly was a shock to the residents of the city.
+19,c,singular,singular,ungrammatical,The warning from the expert unsurprisingly were a shock to the residents of the city.
+19,d,singular,plural,ungrammatical,The warning from the experts unsurprisingly were a shock to the residents of the city.
+19,e,plural,singular,grammatical,The warnings from the expert unsurprisingly were a shock to the residents of the city.
+19,f,plural,plural,grammatical,The warnings from the experts unsurprisingly were a shock to the residents of the city.
+19,g,plural,singular,ungrammatical,The warnings from the expert unsurprisingly was a shock to the residents of the city.
+19,h,plural,plural,ungrammatical,The warnings from the experts unsurprisingly was a shock to the residents of the city.
+20,a,singular,singular,grammatical,The bridge to the island apparently was about ten miles off the main highway.
+20,b,singular,plural,grammatical,The bridge to the islands apparently was about ten miles off the main highway.
+20,c,singular,singular,ungrammatical,The bridge to the island apparently were about ten miles off the main highway.
+20,d,singular,plural,ungrammatical,The bridge to the islands apparently were about ten miles off the main highway.
+20,e,plural,singular,grammatical,The bridges to the island apparently were about ten miles off the main highway.
+20,f,plural,plural,grammatical,The bridges to the islands apparently were about ten miles off the main highway.
+20,g,plural,singular,ungrammatical,The bridges to the island apparently was about ten miles off the main highway.
+20,h,plural,plural,ungrammatical,The bridges to the islands apparently was about ten miles off the main highway.
+21,a,singular,singular,grammatical,The gift from the visitor apparently was a beautiful clock from Germany.
+21,b,singular,plural,grammatical,The gift from the visitors apparently was a beautiful clock from Germany.
+21,c,singular,singular,ungrammatical,The gift from the visitor apparently were a beautiful clock from Germany.
+21,d,singular,plural,ungrammatical,The gift from the visitors apparently were a beautiful clock from Germany.
+21,e,plural,singular,grammatical,The gifts from the visitor apparently were a beautiful clock from Germany.
+21,f,plural,plural,grammatical,The gifts from the visitors apparently were a beautiful clock from Germany.
+21,g,plural,singular,ungrammatical,The gifts from the visitor apparently was a beautiful clock from Germany.
+21,h,plural,plural,ungrammatical,The gifts from the visitors apparently was a beautiful clock from Germany.
+22,a,singular,singular,grammatical,The path to the monument happily was lined with lovely trees and flowers.
+22,b,singular,plural,grammatical,The path to the monuments happily was lined with lovely trees and flowers.
+22,c,singular,singular,ungrammatical,The path to the monument happily were lined with lovely trees and flowers.
+22,d,singular,plural,ungrammatical,The path to the monuments happily were lined with lovely trees and flowers.
+22,e,plural,singular,grammatical,The paths to the monument happily were lined with lovely trees and flowers.
+22,f,plural,plural,grammatical,The paths to the monuments happily were lined with lovely trees and flowers.
+22,g,plural,singular,ungrammatical,The paths to the monument happily was lined with lovely trees and flowers.
+22,h,plural,plural,ungrammatical,The paths to the monuments happily was lined with lovely trees and flowers.
+23,a,singular,singular,grammatical,The message from the engineer regrettably was about the recent weakening to the building's structural supports.
+23,b,singular,plural,grammatical,The message from the engineers regrettably was about the recent weakening to the building's structural supports.
+23,c,singular,singular,ungrammatical,The message from the engineer regrettably were about the recent weakening to the building's structural supports.
+23,d,singular,plural,ungrammatical,The message from the engineers regrettably were about the recent weakening to the building's structural supports.
+23,e,plural,singular,grammatical,The messages from the engineer regrettably were about the recent weakening to the building's structural supports.
+23,f,plural,plural,grammatical,The messages from the engineers regrettably were about the recent weakening to the building's structural supports.
+23,g,plural,singular,ungrammatical,The messages from the engineer regrettably was about the recent weakening to the building's structural supports.
+23,h,plural,plural,ungrammatical,The messages from the engineers regrettably was about the recent weakening to the building's structural supports.
+24,a,singular,singular,grammatical,The gate to the pasture evidently was falling down due to disrepair.
+24,b,singular,plural,grammatical,The gate to the pastures evidently was falling down due to disrepair.
+24,c,singular,singular,ungrammatical,The gate to the pasture evidently were falling down due to disrepair.
+24,d,singular,plural,ungrammatical,The gate to the pastures evidently were falling down due to disrepair.
+24,e,plural,singular,grammatical,The gates to the pasture evidently were falling down due to disrepair.
+24,f,plural,plural,grammatical,The gates to the pastures evidently were falling down due to disrepair.
+24,g,plural,singular,ungrammatical,The gates to the pasture evidently was falling down due to disrepair.
+24,h,plural,plural,ungrammatical,The gates to the pastures evidently was falling down due to disrepair.

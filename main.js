@@ -3,52 +3,62 @@ PennController.DebugOff();
 var counterOverride = 0;
 PennController.SetCounter("setcounter");
 
-// ! CONSTANTS FOR EXPERIMENT ===============================================================================
+// CONSTANTS
 const astTime = 450;
-const blank_time = 1000;
-const recall_time = 8000;
-const instructions_timeout = 15000;
-
-
+const blank_time = 300;
+const math_time = 2500;
+const recall_time = 9000;
 const wFontSize = "100";
 const proceedFontSize = "100";
 const bodyFontSize = "22";
 var headerFontSize = "36";
 
-var fname = "stim_exp.csv";
-
-// ! CSS CONSTANTS =========================================================================================
 var header = { "font-size": headerFontSize, "text-align": "center" };
 
-// ! FUNCTIONS =============================================================================================
-// Define a function to generate subject IDs which is a squence of 4 letters
-// The ID is used to name the recording files
+var text_css = {
+  "font-size": bodyFontSize,
+  "line-height": "150%",
+  "text-align": "justify",
+};
+var page_css = {
+  border: "1px solid #ccc",
+  padding: "20px",
+  "border-radius": "5px",
+};
+var button_css = {
+  "font-size": bodyFontSize,
+  padding: "10px 30px",
+  margin: "20px",
+};
+
+// FUNCTIONS
 function getRandomStr() {
   const LENGTH = 8;
   const SOURCE = "abcdefghijklmnopqrstuvwxyz";
   let result = "";
-
   for (let i = 0; i < LENGTH; i++) {
     result += SOURCE[Math.floor(Math.random() * SOURCE.length)];
   }
   return result;
 }
-// Generate a subject ID
 const subject_id = getRandomStr();
 
-//for inserting breaks
+function randomMath() {
+  var d1 = Math.floor(Math.random() * 4) + 1; // 1-4
+  var d2 = Math.floor(Math.random() * 4) + 1; // 1-4, sum 2-8 stays within 1-9 scale
+  return d1 + " + " + d2 + " = ?";
+}
+
 function SepWithN(sep, main, n) {
   this.args = [sep, main];
-
   this.run = function (arrays) {
     assert(
       arrays.length == 2,
-      "Wrong number of arguments (or bad argument) to SepWithN"
+      "Wrong number of arguments (or bad argument) to SepWithN",
     );
     assert(parseInt(n) > 0, "N must be a positive number");
     let sep = arrays[0];
     let main = arrays[1];
-
     if (main.length <= 1) return main;
     else {
       let newArray = [];
@@ -66,158 +76,143 @@ function sepWithN(sep, main, n) {
   return new SepWithN(sep, main, n);
 }
 
-// ! EXPERIMENT SEQUENCE ====================================================================================
+// SEQUENCE
 Sequence(
   "setcounter",
-  "consent_form",
+  "consent",
   "initiate_recorder",
   "recording_test",
   "preloadTrial",
   startsWith("inst-"),
   startsWith("Intro"),
   startsWith("prac-"),
-  sepWith(
-    "async",
-    sepWithN(
-      "break",
-      rshuffle(
-        "filler", "experimental"
-      ),
-      24
-    )
-  ),
-  "async",
+  sepWithN("break", rshuffle("filler", "experimental"), 24),
+  "upload",
   "send_results",
   "bye1",
-  "bye2"
+  "bye2",
 );
 
-// ! SET METADA =============================================================================================
+// HEADER
 Header(
-  newVar("head_number").global(), //Header(newVar("Preamble").global());
-  newVar("verb_number").global(), //Header(newVar("Condition").global());
-  newVar("attractor_number").global(), //Header(newVar("FillerType").global());
-  newVar("itemnum").global(), 
+  newVar("trial_type").global(),
+  newVar("item_id").global(),
+  newVar("condition").global(),
+  newVar("head_number").global(),
+  newVar("attractor_number").global(),
+  newVar("grammaticality").global(),
+  newVar("rec_file").global(),
 )
+  .log("subject_id", subject_id)
   .log("SONA_ID", GetURLParameter("id"))
+  .log("trial_type", getVar("trial_type"))
+  .log("item_id", getVar("item_id"))
+  .log("condition", getVar("condition"))
   .log("head_number", getVar("head_number"))
-  .log("verb_number", getVar("verb_number"))
   .log("attractor_number", getVar("attractor_number"))
-  .log("itemnum", getVar("itemnum"));
+  .log("grammaticality", getVar("grammaticality"))
+  .log("rec_file", getVar("rec_file"));
 
-// ! CONSENT ================================================================================================
+// CONSENT
 newTrial(
-  "consent_form",
-  newHtml("consent", "consent.html")
-    .settings.checkboxWarning("Required")
-    .settings.radioWarning("Required")
-    .settings.inputWarning("Required")
-    .print()
-    .log(),
-  newButton("I agree to participate in this study")
-    .center()
-    .print()
-    .wait(getHtml("consent").test.complete().failure(getHtml("consent").warn()))
-);
+  "consent",
+  defaultText.css(text_css),
+  newText(
+    "consent-body",
+    "<center><b>Consent Form</b></center>" +
+      "<p>Please click <a target='_blank' rel='noopener noreferrer' href='https://utkuturk.com/files/web_consent.pdf'> here</a> to download the consent form for this study. If you read it and agree to participate in this study, click 'I Agree' below. If you do not agree to participate in this study, you can leave this study by closing the tab. You can leave the experiment at any time by closing the tab during the experiment. If you leave the experiment before completion of both parts, you will not be compensated for your time. If you encounter any problems, do not hesitate to reach us either via " +
+      "email. " +
+      "<br><br><b> Researchers:</b> <br>Sebastián Mancha, PhD Student <i> (smancha@umd.edu)</i>,<br>Utku Turk, PhD Student <i> (utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics",
+  ),
+  newCanvas("consent-page", 1500, 500)
+    .add(100, 20, newImage("umd_ling.png").size("60%", "auto"))
+    .add(0, 120, getText("consent-body"))
+    .cssContainer(page_css)
+    .print(),
+  newText("<p>").print(),
+  newButton("agree", "I AGREE").bold().css(button_css).print().wait(),
+).setOption("hideProgressBar", true);
 
-CheckPreloaded().label("preloadTrial"); //
+CheckPreloaded().label("preloadTrial");
 
-// ! RECORDING ==============================================================================================
+// RECORDING SETUP
 InitiateRecorder(
-  "aws link for trigger" /// !!! TODO
-).label("initiate_recorder");
+  "https://p1f1zmaix0.execute-api.us-east-2.amazonaws.com/default/recall-lambda",
+).label("initiate_recorder"); // !!! TODO
 
 newTrial(
   "recording_test",
   newText(
-    "This experiment involves audio recording. " +
-      "Before you start the experiment, please test your recording."
+    "rec-t1",
+    "This experiment involves audio recording. Before you start the experiment, please test your recording.",
   )
     .bold()
     .print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
+  newText("rec-sp1", "   ").print().color("white"),
   newText(
-    "Please record yourself saying the sentence 'This is a test' (this recording will be saved). " +
-      "To start the recording, press the Record button below. " +
-      "To stop the recording, press it again. " +
-      "To test whether your voice was recorded, click the play button."
+    "rec-t2",
+    "Please record yourself saying the sentence 'This is a test' (this recording will be saved). To start the recording, press the Record button below. To stop the recording, press it again. To test whether your voice was recorded, click the play button.",
   ).print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
+  newText("rec-sp2", "   ").print().color("white"),
   newVoiceRecorder("test-recorder").print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
+  newText("rec-sp3", "   ").print().color("white"),
   newText(
-    "Make sure you can hear your voice clearly in the playback before you continue. " +
-      "<b>Please do not hesitate to test recording yourself multiple times to adjust your volume, " +
-      "and make sure you can hear your voice clearly in the playback before you continue.</b>"
+    "rec-t3",
+    "Make sure you can hear your voice clearly in the playback before you continue. <b>Please do not hesitate to test recording yourself multiple times to adjust your volume, and make sure you can hear your voice clearly in the playback before you continue.</b>",
   ).print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
+  newText("rec-sp4", "   ").print().color("white"),
   newText(
-    "During the experiment, recordings will start and stop automatically. " +
-      "There is a notification at the top of the page that will indicate when audio is being recorded."
+    "rec-t4",
+    "During the experiment, recordings will start and stop automatically. There is a notification at the top of the page that will indicate when audio is being recorded.",
   ).print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newButton("continue", "Click here to continue")
+  newText("rec-sp5", "   ").print().color("white"),
+  newButton("rec-continue", "Click here to continue")
     .print()
     .wait(
       getVoiceRecorder("test-recorder")
-        .test.recorded()
+        .test.recorded() // !TODO: maybe add test played as well?
         .failure(
-          newText("Please test your audio recording before continuing")
+          newText(
+            "rec-warn",
+            "Please test your audio recording before continuing",
+          )
             .color("red")
-            .print()
-        )
-    )
+            .print(),
+        ),
+    ),
 );
 
-// ! INSTRUCTIONS ==========================================================================================
+// INSTRUCTIONS
 newTrial(
   "inst-1",
   newText(
     "<center><b>Instructions</b></center>" +
       "<p>Please read these instruction sections carefully! " +
       "If you fail to understand the task, your data will NOT be usable." +
-      "<p>In this experiment, you will read some sentences word-by-word by pressing 'space' and later recall them." +
+      "<p>In this experiment, you will read some sentences word-by-word by pressing 'space' and later recall them. " +
       "Your voice will be recorded while you recall these sentences." +
       "<p>This experiment requires your FULL ATTENTION. " +
-      "The experiment is reasonably brief. Most people find that the study takes around XXXX minutes. " + //!!! TODO
+      "The experiment is reasonably brief. Most people find that the study takes around XXXX minutes. " + // !!! TODO
       "During this time, you must give your complete attention." +
       "<p>Before proceeding please make sure:<ol>" +
       "<li>You are using your <b>computer</b>, and not your phone or tablet,</li>" +
       "<li>You are using <b>Google Chrome</b>, and not Safari or Firefox,</li>" +
       "<li>You have a <b>working mouse/trackpad and keyboard</b>,</li>" +
-      "<li>You are <b>between the ages of 18 - 30 </b>,</li>" +
+      "<li>You are <b>between the ages of 18 - 30</b>,</li>" +
       "<li>This is your <b>first time doing this experiment</b>,</li>" +
-      "<li>You were able to record yourself and listen to your recording.</li></ol>"
+      "<li>You were able to record yourself and listen to your recording.</li></ol>",
   )
     .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .print(),
-  newButton("Next").center().settings.css("margin", "40px").print().wait()
+  newButton("inst1-next", "Next")
+    .center()
+    .settings.css("margin", "40px")
+    .print()
+    .wait(),
 );
 
 newTrial(
-  "inst-3",
+  "inst-2",
   newText(
     "<center><b>Instructions</b></center>" +
       "<p>Please move to a quiet environment so that there are no background sounds " +
@@ -226,402 +221,437 @@ newTrial(
       "(note that there will be audio during the experiment, so please do not mute your computer)." +
       "<p>When you are ready, please turn off any distractions " +
       "such as music, television, or your cell phone for the duration of the experiment, " +
-      "and click below to begin the introduction section. Thank you!"
+      "and click below to begin the introduction section. Thank you!",
   )
     .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .print(),
-  newButton("Proceed to Introduction Section")
+  newButton("inst2-next", "Proceed to Introduction Section")
     .center()
     .settings.css("margin", "40px")
     .print()
-    .wait()
+    .wait(),
 );
 
-// ! INTRO 1 ================================================================================================
+// INTRO 1 - explain SPR reading
 newTrial(
   "Intro1",
-  newText("Intro1" + "-title", "Introduction<br><br>")
-    .css(header)
-    .center()
-    .bold()
-    .print(),
   newText(
-    "Intro1" + "-body",
-    "In this experiment, you will see sentences presented word-by-word " +
-      "and you will read the sentences as you see each word. Please do this in your head, not aloud" +
-      "For each sentence, you will need to press the 'SPACE' bar to view the sentence one word at a time. " + 
-      "<p>Let's practice some examples together." +
-      "<p>Proceed by pressing any key on your keyboard"
+    "<center><b>Introduction</b></center>" +
+      "<p>In this experiment, you will see sentences presented word-by-word. " +
+      "For each sentence, press the <b>SPACE</b> bar to reveal each word one at a time. " +
+      "Please read each sentence silently, in your head." +
+      "<p>Let's try an example. Press SPACE to start.",
   )
-    .css({ "font-size": bodyFontSize }) // audio1
+    .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .center()
     .print(),
-// PUT BUTTON HERE
-  newKey("Intro1" + "passkey", " ").wait(),
+  newKey("Intro1-pass", " ").wait(),
 );
 
 newTrial(
-  "Intro2a",
-  newText("Intro2a" + "ast-preRSVP", "****") // Present Asterisk
+  "Intro1Demo",
+  newText("i1d-ast", "****")
     .css({ "font-size": "70", "text-align": "center" })
     .print("center at 50vw", "middle at 50vh"),
-  newTimer("Intro2a" + "ast-preRSVP", astTime)
-    .start()
-    .wait(), // Asterisk Timer
-  getText("Intro2a" + "ast-preRSVP").remove(), // Remove Asterisk
-  newController("DashedSentence", {s: "The marker on the desk is yellowish green."})
+  newTimer("i1d-ast-t", astTime).start().wait(),
+  getText("i1d-ast").remove(),
+  newController("DashedSentence", { s: "The cat near the yarn is purring." })
     .log()
-    .css({ "font-size": "100" })
+    .css({ "font-size": wFontSize })
     .print("center at 50vw", "middle at 50vh")
     .wait()
     .remove(),
-  newTimer(800).start().wait(),
+  newTimer("i1d-blank", blank_time).start().wait(),
 ).setOption("hideProgressBar", true);
 
+// INTRO 2 - explain math
 newTrial(
   "Intro2",
   newText(
-    "Intro2" + "-body",
-    "After you read a sentence, you will have a second of white screen, followed by a simple math question, and another second of white screen."
+    "<center><b>Introduction</b></center>" +
+      "<p>After reading each sentence, there will be a brief pause, " +
+      "then you will see a simple addition problem. " +
+      "Use the number keys (1-9) on your keyboard to answer it. " +
+      "You have about 2.5 seconds. Don't worry if you miss one!" +
+      "<p>Let's try an example. Press SPACE to start.",
   )
-    .css({ "font-size": bodyFontSize }) // audio1
+    .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .center()
     .print(),
-// PUT BUTTON HERE
-  newKey("Intro1" + "passkey", " ").wait(),
+  newKey("Intro2-pass", " ").wait(),
 );
 
-
 newTrial(
-  "Intro2a",
-  newText("Intro2a" + "ast-preRSVP", "****") // Present Asterisk
+  "Intro2Demo",
+  newText("i2d-ast", "****")
     .css({ "font-size": "70", "text-align": "center" })
     .print("center at 50vw", "middle at 50vh"),
-  newTimer("Intro2a" + "ast-preRSVP", astTime)
-    .start()
-    .wait(), // Asterisk Timer
-  getText("Intro2a" + "ast-preRSVP").remove(), // Remove Asterisk
-  newController("DashedSentence", {s: "Get ready to do some basic arithmetic calculations."})
+  newTimer("i2d-ast-t", astTime).start().wait(),
+  getText("i2d-ast").remove(),
+  newController("DashedSentence", {
+    s: "The marker on the desk is yellowish green.",
+  })
     .log()
-    .css({ "font-size": "100" })
+    .css({ "font-size": wFontSize })
     .print("center at 50vw", "middle at 50vh")
     .wait()
     .remove(),
-  newTimer(1000).start().wait(),
-  newText("math", "1 + 3?").center().print(),
-  newScale("grade", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+  newTimer("i2d-blank1", blank_time).start().wait(),
+  newText("i2d-math", "2 + 3 = ?")
+    .css({ "font-size": "50", "text-align": "center" })
+    .print("center at 50vw", "middle at 50vh"),
+  newTimer("i2d-math-t", math_time).start(),
+  newScale("i2d-ans", "1", "2", "3", "4", "5", "6", "7", "8", "9")
     .labelsPosition("bottom")
     .css("margin", "10pt")
     .center()
     .keys()
+    .callback(getTimer("i2d-math-t").stop())
     .print()
-    .callback(getTimer("hurry").stop()) // !!! TODO: there should be some timer 
-    .log()
-).setOption("hideProgressBar", true);
-
-
-newTrial(
-  "Intro2",
-  newText(
-    "Intro2" + "-body",
-    "Now, you will read the sentence, do math, and then recall the sentence word by word out loud."
-  )
-    .css({ "font-size": bodyFontSize }) // audio1
-    .center()
-    .print(),
-// PUT BUTTON HERE
-  newKey("Intro1" + "passkey", " ").wait(),
-);
-
-
-newTrial(
-  "Intro2a",
-  newText("Intro2a" + "ast-preRSVP", "****") // Present Asterisk
-    .css({ "font-size": "70", "text-align": "center" })
-    .print("center at 50vw", "middle at 50vh"),
-  newTimer("Intro2a" + "ast-preRSVP", astTime)
-    .start()
-    .wait(), // Asterisk Timer
-  getText("Intro2a" + "ast-preRSVP").remove(), // Remove Asterisk
-  newController("DashedSentence", {s: "Get ready to do some basic arithmetic calculations."})
-    .log()
-    .css({ "font-size": "100" })
-    .print("center at 50vw", "middle at 50vh")
-    .wait()
-    .remove(),
-  newTimer(1000).start().wait(),
-  newText("math", "2 + 5?").center().print(),
-  newScale("grade", "1", "2", "3", "4", "5", "6", "7", "8", "9")
-    .labelsPosition("bottom")
-    .css("margin", "10pt")
-    .center()
-    .keys()
-    .print()
-    .callback(getTimer("hurry").stop()) // !!! TODO: there should be some timer 
     .log(),
-  getText("math").remove(),
-  getScale("grade").remove(), // remove previous elements
-
-  // !!! TODO: add recording here
+  getTimer("i2d-math-t").wait(),
+  getText("i2d-math").remove(),
+  getScale("i2d-ans").remove(),
+  newTimer("i2d-blank2", blank_time).start().wait(),
 ).setOption("hideProgressBar", true);
 
-
-
-
+// INTRO 3 - explain recall
 newTrial(
   "Intro3",
   newText(
-    "Intro3" + "-body",
-    "Now you are ready for the experiment, first we will do some practice"
+    "<center><b>Introduction</b></center>" +
+      "<p>After the math problem, you will see a <b>RECORDING...</b> prompt. " +
+      "This is when you should say the sentence out loud, as best as you can recall it. " +
+      "You have up to 9 seconds, or you can click <b>Done speaking</b> when you finish." +
+      "<p>Try to recall the sentence accurately. It's ok to be imperfect. " +
+      "Avoid saying things unrelated to the sentence, like 'um' or 'I forget'." +
+      "<p>Let's try a full example. Press SPACE to start.",
   )
-    .css({ "font-size": bodyFontSize }) // audio1
+    .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .center()
     .print(),
-// PUT BUTTON HERE
-  newKey("Intro1" + "passkey", " ").wait(),
+  newKey("Intro3-pass", " ").wait(),
 );
 
-
-// ! PRACTICE ===============================================================================================
-
-// !! PRACTICE 1 ============================================================================================
-AddTable(
-  "prac-table",
-  "id,target,nw,w1,w2,w3,w4,trigger\n" +
-    "1,The cat near the yarn is purring.,3,buy,hug,lick,NOPE,throw\n" +
-    "2,The frog on the lilypad is relaxing.,2,frighten,send,NOPE,NOPE,admit\n" +
-    "3,The singer by the microphone is performing.,4,catch,lose,admire,type,see\n" +
-    "4,The wolf in the woods is hunting.,2,find,meet,NOPE,NOPE,contradict"
-);
-
-READY("prac-2");
-
-Template("prac-2", (row) =>
-  newTrial(
-    "prac-2" + "-trials",
-    newText("prac-2" + "-ast-preRSVP", "****") // Present Asterisk
-      .css({ "font-size": "70", "text-align": "center" })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "-ast-preRSVP", astTime)
-      .start()
-      .wait(), // Asterisk Timer
-    getText("prac-2" + "-ast-preRSVP").remove(), // Remove Asterisk
-    ////
-
-    newMediaRecorder(
-      row.id + "_" + "prac-2" + "_" + subject_id,
-      "audio"
-    ).record(), // TIMER
-    newTimer("prac-2" + "-whitescreen-preRSVP", 100)
-      .start()
-      .wait(), // 100 ms white screen
-
-    // RSVP TARGET
-    newController("DashedSentence", {s: row.target})
-      .log()
-      .css({ "font-size": "100" })
-      .print("center at 50vw", "middle at 50vh")
-      .wait()
-      .remove(),
-    ////
-
-    newTimer("prac-2" + "-whitescreen-postRSVP", 1000)
-      .start()
-      .wait(), // 1000 ms white screen
-
-    // Asterisk
-    newText("prac-2" + "-ast-postRSVP", "****") // Present Asterisk
-      .css({ "font-size": "70" })
-      .print("center at 50vw", "middle at 50vh"),
-    newTimer("prac-2" + "-ast-postRSVP", astTime)
-      .start()
-      .wait(), // Asterisk Timer
-    getText("prac-2" + "-ast-postRSVP").remove(), // Remove Asterisk
-
-    // !!! TODO
-
-    getVoiceRecorder(
-      row.id + "_" + "prac-2" + "_" + subject_id,
-      "audio"
-    ).stop(),
-    getText("prac-2" + "-trigger").remove(),
-    newTimer(300).start().wait(),
-    newText("Press any key to proceed")
-      .css({ "font-size": proceedFontSize })
-      .print("center at 50vw", "middle at 50vh"),
-    newKey("").wait()
-  ).setOption("hideProgressBar", true)
+newTrial(
+  "Intro3Demo",
+  newText("i3d-ast", "****")
+    .css({ "font-size": "70", "text-align": "center" })
+    .print("center at 50vw", "middle at 50vh"),
+  newTimer("i3d-ast-t", astTime).start().wait(),
+  getText("i3d-ast").remove(),
+  newController("DashedSentence", { s: "The frog on the lilypad is relaxing." })
+    .log()
+    .css({ "font-size": wFontSize })
+    .print("center at 50vw", "middle at 50vh")
+    .wait()
+    .remove(),
+  newTimer("i3d-blank1", blank_time).start().wait(),
+  newText("i3d-math", "1 + 4 = ?")
+    .css({ "font-size": "50", "text-align": "center" })
+    .print("center at 50vw", "middle at 50vh"),
+  newTimer("i3d-math-t", math_time).start(),
+  newScale("i3d-ans", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+    .labelsPosition("bottom")
+    .css("margin", "10pt")
+    .center()
+    .keys()
+    .callback(getTimer("i3d-math-t").stop())
+    .print()
+    .log(),
+  getTimer("i3d-math-t").wait(),
+  getText("i3d-math").remove(),
+  getScale("i3d-ans").remove(),
+  newTimer("i3d-blank2", blank_time).start().wait(),
+  newMediaRecorder("intro_demo_" + subject_id, "audio").record(),
+  newText("i3d-rec", "RECORDING...")
+    .css({ "font-size": "40px", "text-align": "center", color: "darkred" })
+    .bold()
+    .print("center at 50vw", "middle at 50vh"),
+  newTimer("i3d-rec-t", recall_time).start(),
+  newButton("i3d-rec-btn", "Done speaking")
+    .center()
+    .print()
+    .callback(getTimer("i3d-rec-t").stop()),
+  getTimer("i3d-rec-t").wait(),
+  getMediaRecorder("intro_demo_" + subject_id).stop(),
+  getText("i3d-rec").remove(),
+  getButton("i3d-rec-btn").remove(),
 ).setOption("hideProgressBar", true);
 
-
-
-
-
-
-// !! EXPSTART =============================================================================================
 newTrial(
-  "prac-transition6",
+  "Intro4",
   newText(
-    "prac-transition6-body",
-    "<p>Great job! Let's begin the experiment now. " +
-      "<p>Press any key to proceed to the experiment"
+    "<center><b>Introduction</b></center>" +
+      "<p>Great! Now you understand the task. " +
+      "We will now do some practice trials before the actual experiment." +
+      "<p>Press SPACE to begin practice.",
   )
-    .css({ "font-size": bodyFontSize, "text-align": "center" })
+    .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .center()
     .print(),
-  newKey("prac-transition6-pass", "").wait(),
+  newKey("Intro4-pass", " ").wait(),
 );
 
+// PRACTICE
 newTrial(
-  "prac-transition7",
+  "prac-intro",
   newText(
-    "prac-transition7-body",
-    "<p>Remember, you'll read a sentence word by word " +
-      "while memorizing it word for word, as best as you can. " +
-      "Then, you'll need to use your keyboard to respond to a small addition problem. " +
-      "After a short blank screen, you'll see a recording prompt. " +
-      "At this point, recall the sentence as accurately as you can out loud. It's ok to be imperfect! " +
-      "Try to avoid saying things unrelated to the sentence, like 'um' or 'I forget'. " +
-      "There will be a brief pause between trials. " +
-      "<p>Before continuing, please double-check " +
-      "that you are in a quiet environment with minimal or no background noise." +
-      "<p>Press any key to proceed to the experiment"
+    "<center><b>Practice</b></center>" +
+      "<p>Let's do 6 practice trials. Each trial works like this: " +
+      "read the sentence word by word, answer the math problem, " +
+      "then recall the sentence out loud when you see <b>RECORDING...</b>." +
+      "<p>Press SPACE to start.",
   )
-    .css({ "font-size": bodyFontSize, "text-align": "center" })
+    .css({ "font-size": bodyFontSize, "line-height": "125%" })
     .center()
     .print(),
-  newKey("prac-transition7-pass", "").wait(),
+  newKey("prac-intro-pass", " ").wait(),
 );
 
-// ! EXPERIMENT =============================================================================================
-// This creates a trial labeled 'async' that will upload all the samples recorded by the time it is run
-UploadRecordings("async", "noblock");
+AddTable(
+  "prac-table",
+  "id,target\n" +
+    "1,The cat near the yarn is purring.\n" +
+    "2,The frog on the lilypad is relaxing.\n" +
+    "3,The singer by the microphone is performing.\n" +
+    "4,The wolf in the woods is hunting.\n" +
+    "5,The bird on the branch is singing.\n" +
+    "6,The kid at the park is playing.",
+);
 
-READY("prac-before-exp");
-
-var trial = (label) => (row) => {
+Template("prac-table", (row) => {
+  var mathQ = randomMath();
   return newTrial(
-    label,
-    newText("ast-preRSVP", "****") // Present Asterisk
+    "prac-full",
+    newText("pf-ast", "****")
       .css({ "font-size": "70", "text-align": "center" })
       .print("center at 50vw", "middle at 50vh"),
-    newTimer("ast-preRSVP", astTime).start().wait(), // Asterisk Timer
-    getText("ast-preRSVP").remove(), // Remove Asterisk
-    ////
-
-    newMediaRecorder(
-      row.head +
-        "_" +
-        row.verb_type +
-        "_" +
-        row.trigger_type +
-        "_" +
-        subject_id,
-      "audio"
-    ).record(), // TIMER
-    newTimer("whitescreen-preRSVP", 100).start().wait(), // 100 ms white screen
-
-    // RSVP TARGET
-    newController("DashedSentence", {s: row.target})
+    newTimer("pf-ast-t", astTime).start().wait(),
+    getText("pf-ast").remove(),
+    newController("DashedSentence", { s: row.target })
       .log()
-      .css({ "font-size": "100" })
+      .css({ "font-size": wFontSize })
       .print("center at 50vw", "middle at 50vh")
       .wait()
       .remove(),
-    ////
-
-    newTimer("whitescreen-postRSVP", 1000).start().wait(), // 1000 ms white screen
-
-    // Asterisk
-    newText("ast-postRSVP", "****") // Present Asterisk
-      .css({ "font-size": "70" })
+    newTimer("pf-blank1", blank_time).start().wait(),
+    newText("pf-math", mathQ)
+      .css({ "font-size": "50", "text-align": "center" })
       .print("center at 50vw", "middle at 50vh"),
-    newTimer("ast-postRSVP", astTime).start().wait(), // Asterisk Timer
-    getText("ast-postRSVP").remove(), // Remove Asterisk
-    ////
-
-    newText("trialMath"), //!!! TODO
-    getVoiceRecorder( //!!! TODO change wav name
-      row.head +
-        "_" +
-        row.verb_type +
-        "_" +
-        row.trigger_type +
-        "_" +
-        subject_id,
-      "audio"
-    ).stop(),
-    newTimer(300).start().wait(),
-    newText("Press any key to proceed")
-      .css({ "font-size": proceedFontSize })
+    newTimer("pf-math-t", math_time).start(),
+    newScale("pf-ans", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+      .labelsPosition("bottom")
+      .css("margin", "10pt")
+      .center()
+      .keys()
+      .callback(getTimer("pf-math-t").stop())
+      .print()
+      .log(),
+    getTimer("pf-math-t").wait(),
+    getText("pf-math").remove(),
+    getScale("pf-ans").remove(),
+    newTimer("pf-blank2", blank_time).start().wait(),
+    newMediaRecorder("prac_" + row.id + "_" + subject_id, "audio").record(),
+    newText("pf-rec", "RECORDING...")
+      .css({ "font-size": "40px", "text-align": "center", color: "darkred" })
+      .bold()
       .print("center at 50vw", "middle at 50vh"),
-    newTimer("3s", ProceedTimeOut).start(),
-    newKey("").log("last").callback(getTimer("3s").stop()),
-    getTimer("3s").wait(),
-    // SAVE METADATA
-    getVar("head").set(row.head),
-    getVar("verb_type").set(row.verb_type),
-    getVar("trigger").set(row.trigger),
-    getVar("trigger_type").set(row.trigger_type),
-    getVar("itemnum").set(row.item),
+    newTimer("pf-rec-t", recall_time).start(),
+    newButton("pf-rec-btn", "Done speaking")
+      .center()
+      .print()
+      .callback(getTimer("pf-rec-t").stop()),
+    getTimer("pf-rec-t").wait(),
+    getMediaRecorder("prac_" + row.id + "_" + subject_id).stop(),
+    getText("pf-rec").remove(),
+    getButton("pf-rec-btn").remove(),
   ).setOption("hideProgressBar", true);
-};
+});
 
-Template(GetTable(fname).filter("head", /ballerina/), trial("trial_ballerina"));
-Template(GetTable(fname).filter("head", /lifeguard/), trial("trial_lifeguard"));
-Template(GetTable(fname).filter("head", /chef/), trial("trial_chef"));
-Template(GetTable(fname).filter("head", /clown/), trial("trial_clown"));
-Template(GetTable(fname).filter("head", /cowboy/), trial("trial_cowboy"));
-Template(GetTable(fname).filter("head", /dog/), trial("trial_dog"));
-Template(GetTable(fname).filter("head", /monkey/), trial("trial_monkey"));
-Template(GetTable(fname).filter("head", /octopus/), trial("trial_octopus"));
-Template(GetTable(fname).filter("head", /penguin/), trial("trial_penguin"));
-Template(GetTable(fname).filter("head", /pirate/), trial("trial_pirate"));
-Template(GetTable(fname).filter("head", /rabbit/), trial("trial_rabbit"));
-Template(GetTable(fname).filter("head", /snail/), trial("trial_snail"));
+newTrial(
+  "prac-done",
+  newText(
+    "<p>Great job! You're ready for the experiment." +
+      "<p>Remember: read the sentence word by word, answer the math problem, " +
+      "then recall the sentence out loud when you see <b>RECORDING...</b>." +
+      "<p>Please make sure you are in a quiet environment with minimal background noise." +
+      "<p>Press any key to begin.",
+  )
+    .css({ "font-size": bodyFontSize, "text-align": "center" })
+    .center()
+    .print(),
+  newKey("prac-done-pass", "").wait(),
+);
+
+// UPLOAD (blocking, runs after all trials)
+UploadRecordings("upload");
+
+// FILLERS
+Template(GetTable("fillers.csv").separator(";"), (row) => {
+  var mathQ = randomMath();
+  var recFile = subject_id + "_fill_" + row.FillerNo;
+  return newTrial(
+    "filler",
+    newText("fill-ast", "****")
+      .css({ "font-size": "70", "text-align": "center" })
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("fill-ast-t", astTime).start().wait(),
+    getText("fill-ast").remove(),
+    newController("DashedSentence", { s: row.Sentence })
+      .log()
+      .css({ "font-size": wFontSize })
+      .print("center at 50vw", "middle at 50vh")
+      .wait()
+      .remove(),
+    newTimer("fill-blank1", blank_time).start().wait(),
+    newText("fill-math", mathQ)
+      .css({ "font-size": "50", "text-align": "center" })
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("fill-math-t", math_time).start(),
+    newScale("fill-ans", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+      .labelsPosition("bottom")
+      .css("margin", "10pt")
+      .center()
+      .keys()
+      .callback(getTimer("fill-math-t").stop())
+      .print()
+      .log(),
+    getTimer("fill-math-t").wait(),
+    getText("fill-math").remove(),
+    getScale("fill-ans").remove(),
+    newTimer("fill-blank2", blank_time).start().wait(),
+    newMediaRecorder(recFile, "audio").record(),
+    newText("fill-rec", "RECORDING...")
+      .css({ "font-size": "40px", "text-align": "center", color: "darkred" })
+      .bold()
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("fill-rec-t", recall_time).start(),
+    newButton("fill-rec-btn", "Done speaking")
+      .center()
+      .print()
+      .callback(getTimer("fill-rec-t").stop()),
+    getTimer("fill-rec-t").wait(),
+    getMediaRecorder(recFile).stop(),
+    getText("fill-rec").remove(),
+    getButton("fill-rec-btn").remove(),
+    getVar("trial_type").set("filler"),
+    getVar("item_id").set(row.FillerNo),
+    getVar("condition").set("NA"),
+    getVar("head_number").set("NA"),
+    getVar("attractor_number").set("NA"),
+    getVar("grammaticality").set("NA"),
+    getVar("rec_file").set(recFile),
+  ).setOption("hideProgressBar", true);
+});
+
+// EXPERIMENTAL ITEMS
+Template("stim.csv", (row) => {
+  var mathQ = randomMath();
+  var recFile = subject_id + "_exp_" + row.item + "_" + row.condition;
+  return newTrial(
+    "experimental",
+    newText("exp-ast", "****")
+      .css({ "font-size": "70", "text-align": "center" })
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("exp-ast-t", astTime).start().wait(),
+    getText("exp-ast").remove(),
+    newController("DashedSentence", { s: row.sentence })
+      .log()
+      .css({ "font-size": wFontSize })
+      .print("center at 50vw", "middle at 50vh")
+      .wait()
+      .remove(),
+    newTimer("exp-blank1", blank_time).start().wait(),
+    newText("exp-math", mathQ)
+      .css({ "font-size": "50", "text-align": "center" })
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("exp-math-t", math_time).start(),
+    newScale("exp-ans", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+      .labelsPosition("bottom")
+      .css("margin", "10pt")
+      .center()
+      .keys()
+      .callback(getTimer("exp-math-t").stop())
+      .print()
+      .log(),
+    getTimer("exp-math-t").wait(),
+    getText("exp-math").remove(),
+    getScale("exp-ans").remove(),
+    newTimer("exp-blank2", blank_time).start().wait(),
+    newMediaRecorder(recFile, "audio").record(),
+    newText("exp-rec", "RECORDING...")
+      .css({ "font-size": "40px", "text-align": "center", color: "darkred" })
+      .bold()
+      .print("center at 50vw", "middle at 50vh"),
+    newTimer("exp-rec-t", recall_time).start(),
+    newButton("exp-rec-btn", "Done speaking")
+      .center()
+      .print()
+      .callback(getTimer("exp-rec-t").stop()),
+    getTimer("exp-rec-t").wait(),
+    getMediaRecorder(recFile).stop(),
+    getText("exp-rec").remove(),
+    getButton("exp-rec-btn").remove(),
+    getVar("trial_type").set("experimental"),
+    getVar("item_id").set(row.item),
+    getVar("condition").set(row.condition),
+    getVar("head_number").set(row.head_number),
+    getVar("attractor_number").set(row.attractor_number),
+    getVar("grammaticality").set(row.grammaticality),
+    getVar("rec_file").set(recFile),
+  ).setOption("hideProgressBar", true);
+});
 
 newTrial(
   "break",
   newText(
+    "break-text",
     "Let's take a short break! Please keep this to only a moment, to ensure that you finish in proper time. " +
-      "Press any key to continue when you are ready."
+      "Press any key to continue when you are ready.",
   )
     .css({ "font-size": headerFontSize })
     .print("center at 50vw", "middle at 50vh"),
-  newKey("anykey58", "").wait()
+  newKey("break-pass", "").wait(),
 );
 
-// ! EXIT ===================================================================================================
+// EXIT
 SendResults("send_results");
 
 newTrial(
   "bye1",
-      newText(
-        "confirmation",
-        "This is the end of the experiment. Thank you for participating!" +
-          "<p> The recordings were sent to the server. Click the Download Recordings button below if you want to have a copy of your recordings."
-      ).print(),
-  newText("download", DownloadRecordingButton("Download recordings")).print(),
-  newButton("Next").center().settings.css("margin", "40px").print().wait()
+  newText(
+    "bye1-text",
+    "This is the end of the experiment. Thank you for participating!" +
+      "<p>The recordings were sent to the server. Click the Download Recordings button below if you want a copy.",
+  ).print(),
+  newText("bye1-dl", DownloadRecordingButton("Download recordings")).print(),
+  newButton("bye1-next", "Next")
+    .center()
+    .settings.css("margin", "40px")
+    .print()
+    .wait(),
 );
 
 newTrial(
   "bye2",
-  newText("confirmation", "Thank you for participating in our study!")
+  newText("bye2-thanks", "Thank you for participating in our study!")
     .center()
     .print(),
-  newText(".   ") // Adding space for formatting
-    .print()
-    .color("white"),
-  newHtml("debrief", "debrief.html"),
+  newText("bye2-sp", "   ").print().color("white"),
+  newHtml("debrief", "debrief.html").print(),
   newText(
-    "<p><a href='https://umlinguistics.sona-systems.com/......."+GetURLParameter("id")+"' target='_blank'>"+
-      "Click here to confirm your participation on SONA!</a></p> <p>This is a necessary step in order for you to receive participation credit!</p>" +
+    "bye2-sona",
+    "<p><a href='https://umlinguistics.sona-systems.com/......." +
+      GetURLParameter("id") +
+      "' target='_blank'>" +
+      "Click here to confirm your participation on SONA!</a></p>" +
+      "<p>This is a necessary step in order for you to receive participation credit!</p>" +
       "If you have any problems with this step, please email utkuturk@umd.edu" +
-      "<p>When you are finished, you may close this tab."
+      "<p>When you are finished, you may close this tab.",
   )
     .center()
     .bold()
     .print(),
-  newTimer("infinite", 1000).wait()
+  newTimer("infinite", 99999999).start().wait(),
 );

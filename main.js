@@ -51,27 +51,31 @@ function randomMath() {
 
 function SepWithN(sep, main, n) {
   this.args = [sep, main];
+
   this.run = function (arrays) {
-    assert(
-      arrays.length == 2,
-      "Wrong number of arguments (or bad argument) to SepWithN",
-    );
+    assert(arrays.length == 2, "Wrong number of arguments to SepWithN");
     assert(parseInt(n) > 0, "N must be a positive number");
-    let sep = arrays[0];
-    let main = arrays[1];
-    if (main.length <= 1) return main;
-    else {
-      let newArray = [];
-      while (main.length) {
-        for (let i = 0; i < n && main.length > 0; i++)
-          newArray.push(main.pop());
-        for (let j = 0; j < sep.length && main.length > 0; ++j)
-          newArray.push(sep[j]);
+
+    const sepArr = arrays[0];
+    const mainArr = arrays[1];
+
+    const newArray = [];
+
+    for (let i = 0; i < mainArr.length; i++) {
+      newArray.push(mainArr[i]);
+
+      // insert separator every n trials
+      if ((i + 1) % n === 0 && i < mainArr.length - 1) {
+        for (let j = 0; j < sepArr.length; j++) {
+          newArray.push(sepArr[j]);
+        }
       }
-      return newArray;
     }
+
+    return newArray;
   };
 }
+
 function sepWithN(sep, main, n) {
   return new SepWithN(sep, main, n);
 }
@@ -85,7 +89,7 @@ Sequence(
   startsWith("inst-"),
   startsWith("Intro"),
   startsWith("prac-"),
-  rshuffle("filler", "experimental"),
+  sepWithN("break", rshuffle("filler", "experimental"), 24),
   "upload",
   "send_results",
   "bye1",

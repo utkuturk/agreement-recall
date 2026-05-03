@@ -8,7 +8,7 @@ const astTime = 450;
 const blank_time = 300;
 const math_time = 2500;
 const recall_time = 9000;
-const wFontSize = "100";
+const wFontSize = "50";
 const proceedFontSize = "100";
 const bodyFontSize = "22";
 var headerFontSize = "36";
@@ -126,7 +126,7 @@ newTrial(
 // RECORDING SETUP
 InitiateRecorder(
   "https://p1f1zmaix0.execute-api.us-east-2.amazonaws.com/default/recall-lambda",
-).label("initiate_recorder"); // !!! TODO
+).label("initiate_recorder");
 
 newTrial(
   "recording_test",
@@ -310,7 +310,7 @@ newTrial(
     "<center><b>Introduction</b></center>" +
       "<p>After the math problem, you will see a <b>RECORDING...</b> prompt. " +
       "This is when you should say the sentence out loud, as best as you can recall it. " +
-      "You have up to 9 seconds, or you can click <b>Done speaking</b> when you finish." +
+      "You have up to 9 seconds, or you can click <b>Done speaking</b> when you finish, or hit the space bar." +
       "<p>Try to recall the sentence accurately. It's ok to be imperfect. " +
       "Avoid saying things unrelated to the sentence, like 'um' or 'I forget'." +
       "<p>Let's try a full example. Press SPACE to start.",
@@ -361,6 +361,8 @@ newTrial(
     .center()
     .print()
     .callback(getTimer("i3d-rec-t").stop()),
+  newKey(" ") 
+    .callback( getButton("i3d-rec-btn").click() ), // spacebar to move on
   getTimer("i3d-rec-t").wait(),
   getMediaRecorder("intro_demo_" + subject_id).stop(),
   getText("i3d-rec").remove(),
@@ -450,6 +452,8 @@ Template("prac-table", (row) => {
       .center()
       .print()
       .callback(getTimer("pf-rec-t").stop()),
+    newKey(" ") 
+      .callback( getButton("pf-rec-btn").click() ), // spacebar to move on
     getTimer("pf-rec-t").wait(),
     getMediaRecorder("prac_" + row.id + "_" + subject_id).stop(),
     getText("pf-rec").remove(),
@@ -461,8 +465,9 @@ newTrial(
   "prac-done",
   newText(
     "<p>Great job! You're ready for the experiment." +
-      "<p>Remember: read the sentence word by word, answer the math problem, " +
-      "then recall the sentence out loud when you see <b>RECORDING...</b>." +
+      "<p>Remember: read the sentence word by word, answer the math problem with your keyboard, " +
+      "then recall the sentence word-for-word out loud when you see <b>RECORDING...</b>. " +
+      "Then, finish the recording by pressing space bar or the button on your screen and move on." +
       "<p>Please make sure you are in a quiet environment with minimal background noise." +
       "<p>Press any key to begin.",
   )
@@ -519,6 +524,8 @@ Template("fillers.csv", (row) => {
       .center()
       .print()
       .callback(getTimer("fill-rec-t").stop()),
+    newKey(" ") 
+      .callback( getButton("fill-rec-btn").click() ), // spacebar to move on
     getTimer("fill-rec-t").wait(),
     getMediaRecorder(recFile).stop(),
     getText("fill-rec").remove(),
@@ -577,6 +584,8 @@ Template("stim.csv", (row) => {
       .center()
       .print()
       .callback(getTimer("exp-rec-t").stop()),
+    newKey(" ") 
+      .callback( getButton("exp-rec-btn").click() ), // spacebar to move on
     getTimer("exp-rec-t").wait(),
     getMediaRecorder(recFile).stop(),
     getText("exp-rec").remove(),

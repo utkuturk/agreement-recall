@@ -118,7 +118,7 @@ newTrial(
   newText(
     "<center><b>Consent Form</b></center>" +
       "<p>Please click <a target='_blank' rel='noopener noreferrer' href='https://utkuturk.com/files/web_consent.pdf'>here</a> to download the consent form for this study. If you read it and agree to participate, click 'I AGREE' below. If you do not agree, you may close this tab. You can leave the experiment at any time by closing the tab. If you leave before completion, you will not be compensated. If you encounter any problems, please contact us by email." +
-      "<br><br><b>Researchers:</b><br>Sebastián Mancha, PhD Student <i>(smancha@umd.edu)</i><br>Utku Turk, PhD Student <i>(utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics"
+      "<br><br><b>Researchers:</b><br>Sebastián Mancha, PhD Student <i>(mancha@umd.edu)</i><br>Utku Turk, PhD Student <i>(utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics"
   ).css(text_css).print(),
   newButton("agree", "I AGREE").bold().css(button_css).center().print().wait()
 ).setOption("hideProgressBar", true);

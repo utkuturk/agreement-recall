@@ -12,7 +12,7 @@ const wFontSize = "50";
 const proceedFontSize = "100";
 const bodyFontSize = "22";
 var headerFontSize = "36";
-const sonaURL = "https://umlinguistics.sona-systems.com/";
+const sonaURL = "https://umlinguistics.sona-systems.com/webstudy_credit.aspx?experiment_id=539&credit_token=14c2e6ab451046fda7a4f8172f31eb41&survey_code=";
 
 var header = { "font-size": headerFontSize, "text-align": "center" };
 

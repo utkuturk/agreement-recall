@@ -12,7 +12,8 @@ const wFontSize = "50";
 const proceedFontSize = "100";
 const bodyFontSize = "22";
 var headerFontSize = "36";
-const sonaURL = "https://umlinguistics.sona-systems.com/webstudy_credit.aspx?experiment_id=539&credit_token=14c2e6ab451046fda7a4f8172f31eb41&survey_code=";
+const sonaURL =
+  "https://umlinguistics.sona-systems.com/webstudy_credit.aspx?experiment_id=539&credit_token=14c2e6ab451046fda7a4f8172f31eb41&survey_code=";
 
 var header = { "font-size": headerFontSize, "text-align": "center" };
 
@@ -81,7 +82,9 @@ function asteriskBlock(prefix) {
     newText(prefix + "-ast", "****")
       .css({ "font-size": "70", "text-align": "center" })
       .print("center at 50vw", "middle at 50vh"),
-    newTimer(prefix + "-ast-t", astTime).start().wait(),
+    newTimer(prefix + "-ast-t", astTime)
+      .start()
+      .wait(),
     getText(prefix + "-ast").remove(),
   ];
 }
@@ -111,7 +114,8 @@ function mathScaleBlock(prefix, math) {
       .print()
       .log(),
     getTimer(prefix + "-math-t").wait(),
-    getScale(prefix + "-ans").test.selected(String(math.sum))
+    getScale(prefix + "-ans")
+      .test.selected(String(math.sum))
       .success(getVar("math_correct").set("correct"))
       .failure(getVar("math_correct").set("incorrect")),
     getText(prefix + "-math").remove(),
@@ -195,14 +199,38 @@ Header(
   .log("math_correct", getVar("math_correct"));
 
 // CONSENT
+window.consentLinkClicked = false;
+window.consentAccepted = false;
+
 newTrial(
   "consent",
   newText(
     "<center><b>Consent Form</b></center>" +
-      "<p>Please click <a target='_blank' rel='noopener noreferrer' href='https://utkuturk.com/files/web_consent.pdf'>here</a> to download the consent form for this study. If you read it and agree to participate, click 'I AGREE' below. If you do not agree, you may close this tab. You can leave the experiment at any time by closing the tab. If you leave before completion, you will not be compensated. If you encounter any problems, please contact us by email." +
-      "<br><br><b>Researchers:</b><br>Sebastián Mancha, PhD Student <i>(mancha@umd.edu)</i><br>Utku Turk, PhD Student <i>(utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics"
-  ).css(text_css).print(),
-  newButton("agree", "I AGREE").bold().css(button_css).center().print().wait()
+      "<p>Please click <a target='_blank' rel='noopener noreferrer' href='1376_Web_English.pdf' onclick='window.consentLinkClicked=true'>here</a> to read the consent form for this study. If you read it and agree to participate, check the box and click 'Next' below. If you do not agree, you may close this tab. You can leave the experiment at any time by closing the tab. If you leave before completion, you will not be compensated. If you encounter any problems, please contact us by email." +
+      "<br><br><b>Researchers:</b><br>Sebastián Mancha, PhD Student <i>(mancha@umd.edu)</i><br>Utku Turk, PhD Student <i>(utkuturk@umd.edu)</i><br>Assoc. Prof. Ellen Lau<br>Prof. Colin Phillips<br>University of Maryland, Department of Linguistics" +
+      "<br><br><label style='font-size:" +
+      bodyFontSize +
+      "px'><input type='checkbox' onclick='window.consentAccepted=this.checked' style='width:18px;height:18px;margin-right:8px;vertical-align:middle'> I accept the terms of participation</label>",
+  )
+    .css(text_css)
+    .print(),
+  newButton("agree", "Next")
+    .bold()
+    .css(button_css)
+    .center()
+    .print()
+    .wait(
+      newFunction(() => window.consentLinkClicked && window.consentAccepted)
+        .test.is(true)
+        .failure(
+          newText(
+            "err-consent",
+            "Please open the consent form link above and check the acceptance box before continuing.",
+          )
+            .color("red")
+            .print(),
+        ),
+    ),
 ).setOption("hideProgressBar", true);
 
 // RECORDING SETUP
@@ -351,8 +379,7 @@ newTrial(
     .center()
     .print("center at 50vw", "top at 55vh")
     .callback(getTimer("i3d-rec-t").stop()),
-  newKey(" ") 
-    .callback( getButton("i3d-rec-btn").click() ), // spacebar to move on
+  newKey(" ").callback(getButton("i3d-rec-btn").click()), // spacebar to move on
   getTimer("i3d-rec-t").wait(),
   getMediaRecorder("intro_demo_" + subject_id).stop(),
   getText("i3d-rec").remove(),
@@ -407,8 +434,7 @@ Template("prac-table", (row) => {
       .center()
       .print("center at 50vw", "top at 55vh")
       .callback(getTimer("pf-rec-t").stop()),
-    newKey(" ") 
-      .callback( getButton("pf-rec-btn").click() ), // spacebar to move on
+    newKey(" ").callback(getButton("pf-rec-btn").click()), // spacebar to move on
     getTimer("pf-rec-t").wait(),
     getMediaRecorder("prac_" + row.id + "_" + subject_id).stop(),
     getText("pf-rec").remove(),
@@ -453,8 +479,7 @@ Template("fillers.csv", (row) => {
       .center()
       .print("center at 50vw", "top at 55vh")
       .callback(getTimer("fill-rec-t").stop()),
-    newKey(" ") 
-      .callback( getButton("fill-rec-btn").click() ), // spacebar to move on
+    newKey(" ").callback(getButton("fill-rec-btn").click()), // spacebar to move on
     getTimer("fill-rec-t").wait(),
     getMediaRecorder(recFile).stop(),
     getText("fill-rec").remove(),
@@ -493,8 +518,7 @@ Template("stim.csv", (row) => {
       .center()
       .print("center at 50vw", "top at 55vh")
       .callback(getTimer("exp-rec-t").stop()),
-    newKey(" ") 
-      .callback( getButton("exp-rec-btn").click() ), // spacebar to move on
+    newKey(" ").callback(getButton("exp-rec-btn").click()), // spacebar to move on
     getTimer("exp-rec-t").wait(),
     getMediaRecorder(recFile).stop(),
     getText("exp-rec").remove(),
@@ -551,7 +575,10 @@ newTrial(
   newHtml("debrief", "debrief.html").print(),
   newText(
     "bye2-sona",
-    "<p><a href='" + sonaURL + GetURLParameter("id") + "' target='_blank'>" +
+    "<p><a href='" +
+      sonaURL +
+      GetURLParameter("id") +
+      "' target='_blank'>" +
       "Click here to confirm your participation on SONA!</a></p>" +
       "<p>This is a necessary step in order for you to receive participation credit!</p>" +
       "If you have any problems with this step, please email utkuturk@umd.edu" +

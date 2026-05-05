@@ -12,7 +12,7 @@ const wFontSize = "50";
 const proceedFontSize = "100";
 const bodyFontSize = "22";
 var headerFontSize = "36";
-const sonaURL = "https://umlinguistics.sona-systems.com/.......";
+const sonaURL = "https://umlinguistics.sona-systems.com/";
 
 var header = { "font-size": headerFontSize, "text-align": "center" };
 
@@ -280,7 +280,6 @@ buttonTrial(
     "<p>Please move to a quiet environment so that there are no background sounds " +
     "(e.g. music, television, voices) that will be picked up in the audio recordings. " +
     "Please also silence computer notifications or use headphones " +
-    "(note that there will be audio during the experiment, so please do not mute your computer)." +
     "<p>When you are ready, please turn off any distractions " +
     "such as music, television, or your cell phone for the duration of the experiment, " +
     "and click below to begin the introduction section. Thank you!",
